@@ -1,0 +1,3 @@
+id,instruction,context,dolly_category,tag,tag_reason
+0,请根据下文抽取公司名与成立时间。,阿里巴巴成立于1999年……,,information_extraction,任务要求从文本中提取公司名称和成立时间，属于信息抽取
+1,写一首关于秋天的现代诗。,,,creative_writing,要求创作一首关于秋天的现代诗，属于创意写作任务。

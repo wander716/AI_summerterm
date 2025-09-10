@@ -1,0 +1,2 @@
+{"id": 0, "instruction": "请根据下文抽取公司名与成立时间。", "context": "阿里巴巴成立于1999年……", "dolly_category": "", "tag": "information_extraction", "tag_reason": "任务要求从文本中提取公司名称和成立时间，属于信息抽取"}
+{"id": 1, "instruction": "写一首关于秋天的现代诗。", "context": "", "dolly_category": "", "tag": "creative_writing", "tag_reason": "要求创作一首关于秋天的现代诗，属于创意写作任务。"}
