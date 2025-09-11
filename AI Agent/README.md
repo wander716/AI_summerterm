@@ -28,13 +28,7 @@
 pip install -r requirements.txt
 ```
 
-### 2. 获取DashScope API Key
-
-1. 访问 [阿里云DashScope](https://dashscope.aliyun.com/)
-2. 注册并登录账户
-3. 在控制台创建应用并获取API Key
-
-### 3. 运行后端服务
+### 2. 运行后端服务
 
 ```bash
 python backend.py
@@ -42,15 +36,14 @@ python backend.py
 
 默认运行在 `http://localhost:5000`
 
-### 4. 打开前端页面
+### 3. 打开前端页面
 
 在浏览器中打开 `index.html` 文件
 
 ## 使用说明
 
-1. 在左侧输入你的DashScope API Key
-2. 在右侧输入你的饮食需求
-3. 点击"发送"获取个性化饮食建议
+1. 直接在右侧输入你的饮食需求
+2. 点击"发送"获取个性化饮食建议
 
 ## API接口
 
@@ -61,8 +54,6 @@ python backend.py
 **请求参数:**
 ```json
 {
-  "api_key": "你的API Key",
-  "app_id": "你的应用ID",
   "prompt": "你的问题"
 }
 ```
@@ -89,7 +80,6 @@ python backend.py
 
 1. 后端服务必须在运行状态才能正常使用前端页面
 2. 确保网络连接正常
-3. API Key和应用ID必须正确填写
 
 ## 许可证
 

@@ -101,9 +101,6 @@
             border-color: #4facfe;
         }
 
-        .api-key-input {
-            margin-bottom: 15px;
-        }
 
         .chat-container {
             flex: 1;
@@ -222,31 +219,26 @@
             <p>专业营养膳食助手，为你提供科学、健康、个性化的饮食建议</p>
         </div>
         
-        <div class="main-content">
-            <div class="panel left-panel">
-                <h2 class="panel-title">
-                    🔑 API 配置
-                </h2>
-                
-                <div class="input-group">
-                    <label for="api-key">DashScope API Key</label>
-                    <input type="password" id="api-key" class="api-key-input" placeholder="请输入你的API Key">
-                </div>
-                
-                <div class="instructions">
-                    <h3>使用说明</h3>
-                    <ul>
-                        <li>在上方输入你的DashScope API Key</li>
-                        <li>在右侧输入你的需求。如：个性化饮食推荐、营养信息查询、菜谱、当地美食餐厅推荐</li>
-                        <li>点击"发送"获取“知食”的智能回复</li>
-                    </ul>
-                </div>
-            </div>
+    <div class="main-content">
+        <div class="panel left-panel">
+            <h2 class="panel-title">
+                🍎 知食助手
+            </h2>
             
-            <div class="panel right-panel">
-                <h2 class="panel-title">
-                    💬 饮食咨询
-                </h2>
+            <div class="instructions">
+                <h3>使用说明</h3>
+                <ul>
+                    <li>直接在右侧输入你的饮食需求</li>
+                    <li>如：个性化饮食推荐、营养信息查询、菜谱、当地美食餐厅推荐</li>
+                    <li>点击"发送"获取“知食”的智能回复</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="panel right-panel">
+            <h2 class="panel-title">
+                💬 饮食咨询
+            </h2>
                 
                 <div class="chat-container">
                     <div class="messages" id="messages">
@@ -260,6 +252,8 @@
                             • "请为我查询鸡胸肉的营养成分"
                             <br>
                             • "给我推荐一份低卡路里的晚餐菜谱"
+                            <br>
+                            • "我在上海，想吃生煎，请帮我推荐当地餐厅"
                         </div>
                     </div>
                     
@@ -272,25 +266,18 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         // DOM元素
-        const apiKeyInput = document.getElementById('api-key');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
         const messagesContainer = document.getElementById('messages');
         
         // 启用输入框和按钮
-        apiKeyInput.addEventListener('input', checkInputs);
-        
-        function checkInputs() {
-            if (apiKeyInput.value.trim() !== '') {
-                userInput.disabled = false;
-                sendButton.disabled = false;
-            } else {
-                userInput.disabled = true;
-                sendButton.disabled = true;
-            }
-        }
+        window.addEventListener('load', function() {
+            userInput.disabled = false;
+            sendButton.disabled = false;
+        });
         
         // 发送消息
         sendButton.addEventListener('click', sendMessage);
@@ -303,10 +290,6 @@
         function sendMessage() {
             const message = userInput.value.trim();
             if (message === '') return;
-            
-            // 获取API配置
-            const apiKey = apiKeyInput.value.trim();
-            const appId = "160d8e9b0b82417382bd78092668c14d";  // 固定的应用ID
             
             // 添加用户消息到聊天界面
             addMessage(message, 'user');
@@ -324,8 +307,6 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    api_key: apiKey,
-                    app_id: appId,
                     prompt: message
                 })
             })
@@ -355,7 +336,14 @@
         function addMessage(text, sender, isThinking = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}-message`;
-            messageDiv.textContent = text;
+            
+            if (sender === 'ai') {
+                // 对于AI消息，将Markdown转换为HTML
+                messageDiv.innerHTML = marked.parse(text);
+            } else {
+                // 对于用户消息，直接显示文本
+                messageDiv.textContent = text;
+            }
             
             if (isThinking) {
                 messageDiv.id = 'thinking-message';
@@ -368,9 +356,6 @@
             
             return messageDiv;
         }
-        
-        // 初始检查
-        checkInputs();
     </script>
 </body>
 </html>

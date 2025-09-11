@@ -2,10 +2,10 @@ import os
 from http import HTTPStatus
 from dashscope import Application
 
-API_KEY = os.getenv("DASHSCOPE_API_KEY")
+API_KEY = "sk-xxx"  # 内置API密钥
 
 # 你的应用 ID（在百炼控制台创建应用后获取）
-APP_ID = "160d8e9b0b82417382bd78092668c14d"
+APP_ID = "4b668f15d6bf4733b42125d4052e6473"
 
 def chat():
     print("=== 我是你的饮食小助手：知食 ===")

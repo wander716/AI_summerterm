@@ -11,14 +11,14 @@ CORS(app)  # 允许跨域请求
 def chat():
     try:
         data = request.json
-        api_key = data.get('api_key')
-        app_id = "160d8e9b0b82417382bd78092668c14d"  # 固定的应用ID
+        api_key = "sk-82f8277bb1ba478eab793d5661b5df70"  # 内置API密钥
+        app_id = "4b668f15d6bf4733b42125d4052e6473"  # 固定的应用ID
         prompt = data.get('prompt')
         
-        if not api_key or not prompt:
+        if not prompt:
             return jsonify({
                 'error': 'Missing required parameters',
-                'message': 'API key and prompt are required'
+                'message': 'Prompt is required'
             }), 400
         
         # 调用DashScope API
