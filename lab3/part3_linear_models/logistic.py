@@ -19,13 +19,16 @@ def logistic(X, y):
     
     y = y.reshape(1, N)
     grad = np.ones(w.shape)
-    alpha = 0.1
+    alpha = 0.01
 
     for _ in range(10000):
         z = w.T @ X # 1-by-N
         f = sigmoid(z)
+
         grad = (1/N) * (X @ (f - y).T)
+
         w -= alpha * grad
+        
         if np.linalg.norm(grad) < 1e-6:
             break
 

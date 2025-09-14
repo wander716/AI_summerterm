@@ -14,7 +14,7 @@ def linear_regression(X, y):
     # YOUR CODE HERE
     # begin answer
     X = np.vstack((np.ones((1, N)), X))  # 变成 (P+1)-by-N
-    y = y.reshape(1, N)
+    y = np.array(y).reshape(1, -1)
 
     w = np.linalg.pinv(X @ X.T) @ X @ y.T
 

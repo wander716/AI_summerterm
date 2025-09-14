@@ -36,59 +36,65 @@ from openai import OpenAI
 #   - base_url 必须是 "https://dashscope.aliyuncs.com/compatible-mode/v1"
 #   - 参考：
 #       client = OpenAI(api_key=..., base_url=...)
-client = ...  # ← 在这里创建客户端对象
+client = OpenAI(
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
+)  # ← 在这里创建客户端对象
 
 # TODO: 2) 选择模型名（可从环境变量 MODEL 读取，默认 "qwen-plus"）
-MODEL = ...   # 例如：os.getenv("MODEL", "qwen-plus")
+MODEL = os.getenv("MODEL", "qwen-plus")   # 例如：os.getenv("MODEL", "qwen-plus")
 
 def main():
     # TODO: 3) 初始化 messages，并包含一条 system 提示词
     #   messages 示例：[{"role": "system", "content": "You are a helpful assistant."}]
-    messages = ...  # ← 创建并赋值一个列表
+    messages = [{"role": "system", "content": "You are a helpful assistant."}]  # ← 创建并赋值一个列表
 
     # TODO: 4) 打印提示信息，例如“已就绪，输入 /exit 退出”
-    # print(...)
+    print("已就绪，输入 /exit 退出")
 
     while True:
         try:
             # TODO: 5) 从终端读取一行用户输入（去掉首尾空格）
             # q = input(...).strip()
-            q = ...
+            q = input("你：").strip()
         except (KeyboardInterrupt, EOFError):
             # TODO: 6) 处理 Ctrl+C / EOF 退出：打印提示后 break
-            ...
+            print("\n已退出。")
             break
 
         # TODO: 7) 忽略空输入（continue），支持 '/exit'/'exit'/'quit' 主动退出
-        # if not q: ...
-        # if q.lower() in ("/exit", "exit", "quit"): ...
-        ...
+        if not q:
+            continue
+        if q.lower() in ("/exit", "exit", "quit"):
+            print("已退出。")
+            break
 
         # TODO: 8) 将用户输入追加到 messages（role="user"）
-        # messages.append({...})
-        ...
+        messages.append({
+            "role": "user",
+            "content": q
+        })
 
         try:
             # TODO: 9) 发起一次 Chat Completion 调用
-            # resp = client.chat.completions.create(model=MODEL, messages=messages)
-            resp = ...
+            resp = client.chat.completions.create(model=MODEL, messages=messages)
+
             # TODO: 10) 从 resp 中取出 assistant 文本
-            # a = resp.choices[0].message.content
-            a = ...
+            a = resp.choices[0].message.content
         except Exception as e:
             # TODO: 11) 调用失败时打印错误，并回滚刚刚追加的 user 消息
-            # print(f"调用失败：{e}")
-            # messages.pop()
-            ...
+            print(f"调用失败：{e}")
+            messages.pop()
             continue
 
         # TODO: 12) 打印 assistant 文本到终端
-        # print(f"助理：{a}")
-        ...
+        print(f"助理：{a}")
 
         # TODO: 13) 将 assistant 回复也追加进 messages（role="assistant"）
-        # messages.append({...})
-        ...
+        messages.append({
+            "role": "assistant",
+            "content": a
+        })
 
 if __name__ == "__main__":
     main()
